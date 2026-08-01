@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - 4beauty</title>
+    <link rel="icon" href="images/logo.png" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav class="navbar">
+          <div class="nav-section nav-left">
+            <button
+              class="menu-button btn"
+              id="menu-toggle"
+              type="button"
+              title="Open menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="nav-logo" target="_blank">
+              <img
+                src="images/logo.png"
+                alt="4beauty Logo"
+                class="nav-logo-img"
+              />
+            </a>
+          </div>
+
+          <ul class="nav-section nav-center" id="nav-menu">
+            <button
+              class="close-menu-button btn"
+              id="menu-close"
+              type="button"
+              title="Close menu"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <li><a href="index.html" target="_blank">Home</a></li>
+            <li><a href="products.html" target="_blank">Products</a></li>
+            <li><a href="contact.html" target="_blank">Contact</a></li>
+          </ul>
+
+          <div class="nav-section nav-right">
+            <button
+              class="nav-button theme-button"
+              type="button"
+              title="Toggle theme"
+            >
+              <i class="fa-regular fa-moon"></i>
+            </button>
+
+            <a
+              href="cart.html"
+              title="Cart"
+              target="_blank"
+              class="nav-button cart-icon-btn"
+            >
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span id="cart-count" class="cart-badge">0</span>
+            </a>
+            <a href="login.html" title="Sign In" class="nav-button">
+              <i class="fa-solid fa-user"></i>
+            </a>
+          </div>
+        </nav>
+
+        <div class="nav-overlay" id="nav-overlay"></div>
+      </header>
+      <section class="products-page-section">
+        <h2 class="section-title">Explore Makeup Collection</h2>
+
+        <div class="modern-filter-container">
+          <div class="filter-box search-box">
+            <i class="fa-solid fa-magnifying-glass filter-icon"></i>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search product name..."
+            />
+          </div>
+
+          <div class="filter-box">
+            <i class="fa-solid fa-layer-group filter-icon"></i>
+            <select id="category-select">
+              <option value="lipstick">Lipsticks</option>
+              <option value="blush">Blushes</option>
+              <option value="foundation">Foundations</option>
+              <option value="mascara">Mascaras</option>
+              <option value="eyebrow">Eyebrows</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <i class="fa-solid fa-award filter-icon"></i>
+            <select id="brand-select">
+              <option value="all">All Brands</option>
+              <option value="maybelline">Maybelline</option>
+              <option value="l'oreal">L'Oreal</option>
+              <option value="nyx">NYX</option>
+              <option value="covergirl">Covergirl</option>
+              <option value="e.l.f.">e.l.f.</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <i class="fa-solid fa-arrow-down-wide-short filter-icon"></i>
+            <select id="sort-select">
+              <option value="default">Sort by: Featured</option>
+              <option value="low-to-high">Price: Low to High</option>
+              <option value="high-to-low">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="all-products-container"></div>
+      </section>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart - 4beauty</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="icon" href="images/logo.png" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav class="navbar">
+          <div class="nav-section nav-left">
+            <button
+              class="menu-button btn"
+              id="menu-toggle"
+              type="button"
+              title="Open menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <a href="index.html" class="nav-logo" target="_blank">
+              <img
+                src="images/logo.png"
+                alt="4beauty Logo"
+                class="nav-logo-img"
+              />
+            </a>
+          </div>
+
+          <ul class="nav-section nav-center" id="nav-menu">
+            <button
+              class="close-menu-button btn"
+              id="menu-close"
+              type="button"
+              title="Close menu"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <li><a href="index.html" target="_blank">Home</a></li>
+            <li><a href="products.html" target="_blank">Products</a></li>
+            <li><a href="contact.html" target="_blank">Contact</a></li>
+          </ul>
+
+          <div class="nav-section nav-right">
+            <button
+              class="nav-button theme-button"
+              type="button"
+              title="Toggle theme"
+            >
+              <i class="fa-regular fa-moon"></i>
+            </button>
+
+            <a
+              href="cart.html"
+              title="Cart"
+              target="_blank"
+              class="nav-button cart-icon-btn"
+            >
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span id="cart-count" class="cart-badge">0</span>
+            </a>
+            <a href="login.html" title="Sign In" class="nav-button">
+              <i class="fa-solid fa-user"></i>
+            </a>
+          </div>
+        </nav>
+
+        <div class="nav-overlay" id="nav-overlay"></div>
+      </header>
+      <section class="cart-section">
+        <h2 class="section-title">Your Shopping Cart</h2>
+
+        <div class="cart-wrapper">
+          <div class="cart-items" id="cart-items-container"></div>
+
+          <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="subtotal-price">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span>Free</span>
+            </div>
+            <hr />
+            <div class="summary-row total-row">
+              <span>Total</span>
+              <span id="total-price">$0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof renderCartPage === "function") {
+          renderCartPage();
+        }
+      });
+    </script>
+  </body>
+</html>

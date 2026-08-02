@@ -38,22 +38,27 @@ function setupNavigation() {
   if (menuClose) menuClose.addEventListener("click", closeMenu);
   if (navOverlay) navOverlay.addEventListener("click", closeMenu);
 
-  const currentPage = window.location.pathname.split("/").pop() || "index.html";
   const navLinks = document.querySelectorAll(".nav-center li a");
+  navLinks.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+
+  let currentPath = window.location.pathname.split("/").pop().toLowerCase();
+  
+  if (!currentPath || currentPath === "" || currentPath === "index.html") {
+    currentPath = "index.html";
+  }
 
   navLinks.forEach((link) => {
     link.classList.remove("active");
-    const linkPage = link.getAttribute("href");
+    const linkHref = link.getAttribute("href") ? link.getAttribute("href").toLowerCase() : "";
 
-    if (
-      linkPage === currentPage ||
-      (currentPage === "" && linkPage === "index.html")
-    ) {
+    if (linkHref === currentPath) {
       link.classList.add("active");
     }
   });
 }
-
 async function fetchBeautyProducts() {
   const container = document.getElementById("products-container");
   if (!container) return;
@@ -211,7 +216,11 @@ function addToCart(productData) {
 function updateCartBadge() {
   const cartBadge = document.getElementById("cart-count");
   if (cartBadge) {
-    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalCount = cart.reduce((sum, item) => {
+      const q = parseInt(item.quantity);
+      return sum + (isNaN(q) ? 1 : q);
+    }, 0);
     cartBadge.textContent = totalCount;
   }
 }
@@ -253,10 +262,19 @@ function renderCartPage() {
   let totalPrice = 0;
 
   cart.forEach((item, index) => {
-    const itemPriceStr = item && item.price ? String(item.price) : "$0.00";
-    const rawPrice = parseFloat(itemPriceStr.replace("$", "")) || 0;
-    const itemTotal = rawPrice * item.quantity;
+    let rawPrice = 0;
+    if (typeof item.price === "number") {
+      rawPrice = item.price;
+    } else if (typeof item.price === "string") {
+      const cleanPrice = item.price.replace(/[^0-9.]/g, "");
+      rawPrice = parseFloat(cleanPrice) || 0;
+    }
+
+    const itemQuantity = parseInt(item.quantity) || 1;
+    const itemTotal = rawPrice * itemQuantity;
     totalPrice += itemTotal;
+
+    const formattedPrice = `$${rawPrice.toFixed(2)}`;
 
     const cartItem = document.createElement("div");
     cartItem.classList.add("cart-item");
@@ -266,13 +284,13 @@ function renderCartPage() {
         <img src="${item.image || "images/placeholder.png"}" alt="${item.name}" class="cart-item-img" />
         <div>
           <h4 class="cart-item-title">${item.name}</h4>
-          <span class="cart-item-price">${itemPriceStr}</span>
+          <span class="cart-item-price">${formattedPrice}</span>
         </div>
       </div>
       <div style="display: flex; align-items: center;">
         <div class="quantity-controls">
           <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
-          <span>${item.quantity}</span>
+          <span>${itemQuantity}</span>
           <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
         </div>
         <button class="delete-btn" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>
@@ -424,6 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavigation();
   updateCartBadge();
   setupContactForm();
+   setupUserAuth();
+
 
   if (document.getElementById("products-container")) {
     fetchBeautyProducts();
@@ -459,4 +479,148 @@ function setupContactForm() {
 
     contactForm.reset();
   });
+}
+/* ==========================================================================
+   User Authentication & Header Welcome Logic (Strict Validation)
+   ========================================================================== */
+
+function setupUserAuth() {
+  const showLoginBtn = document.getElementById("show-login-btn");
+  const showRegisterBtn = document.getElementById("show-register-btn");
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
+
+  if (showLoginBtn && showRegisterBtn) {
+    showLoginBtn.addEventListener("click", () => {
+      showLoginBtn.classList.add("active");
+      showRegisterBtn.classList.remove("active");
+      loginForm.classList.add("active");
+      registerForm.classList.remove("active");
+    });
+
+    showRegisterBtn.addEventListener("click", () => {
+      showRegisterBtn.classList.add("active");
+      showLoginBtn.classList.remove("active");
+      registerForm.classList.add("active");
+      loginForm.classList.remove("active");
+    });
+  }
+
+ if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userName = document.getElementById("reg-name").value.trim();
+      const userEmail = document.getElementById("reg-email").value.trim().toLowerCase();
+      const userPassword = document.getElementById("reg-password").value;
+
+      let users = JSON.parse(localStorage.getItem("4beauty_registered_users")) || [];
+
+      const existingUser = users.find(u => u.email === userEmail);
+      if (existingUser) {
+        alert("This email is already registered! Please log in.");
+        return;
+      }
+
+      const newUser = { name: userName, email: userEmail, password: userPassword };
+      users.push(newUser);
+      localStorage.setItem("4beauty_registered_users", JSON.stringify(users));
+
+      if (typeof showToast === "function") {
+        showToast(`Account created successfully! Please log in.`);
+      }
+
+      registerForm.reset();
+
+     
+      const showLoginBtn = document.getElementById("show-login-btn");
+      const loginForm = document.getElementById("login-form");
+
+      if (showLoginBtn && loginForm) {
+        showLoginBtn.click(); 
+        const loginEmailInput = document.getElementById("login-email");
+        if (loginEmailInput) {
+          loginEmailInput.value = userEmail; 
+        }
+      }
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim().toLowerCase();
+      const password = document.getElementById("login-password").value;
+
+      let users = JSON.parse(localStorage.getItem("4beauty_registered_users")) || [];
+
+      const matchedUser = users.find(u => u.email === email && u.password === password);
+
+      if (matchedUser) {
+        localStorage.setItem("4beauty_logged_in_user", JSON.stringify(matchedUser));
+
+        if (typeof showToast === "function") {
+          showToast(`Welcome back, ${matchedUser.name}!`);
+        }
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1000);
+      } else {
+        alert("Invalid email or password! If you don't have an account, please Register first.");
+      }
+    });
+  }
+
+  updateHeaderUserDisplay();
+}
+
+function updateHeaderUserDisplay() {
+  const userAccountBox = document.getElementById("user-account-box");
+  const userBtn = document.getElementById("user-btn");
+  const loggedInUser = JSON.parse(localStorage.getItem("4beauty_logged_in_user"));
+
+  if (loggedInUser && loggedInUser.name) {
+    if (userBtn) {
+      userBtn.href = "#"; 
+      
+      let userNameDisplay = document.getElementById("user-name-display");
+      if (!userNameDisplay) {
+        userNameDisplay = document.createElement("span");
+        userNameDisplay.id = "user-name-display";
+        userNameDisplay.className = "user-welcome-text";
+        userBtn.appendChild(userNameDisplay);
+      }
+      
+      userNameDisplay.textContent = ` ${loggedInUser.name}`;
+      userNameDisplay.style.display = "inline-block"; 
+    }
+
+    if (userAccountBox && !document.getElementById("logout-btn")) {
+      const logoutBtn = document.createElement("button");
+      logoutBtn.id = "logout-btn";
+      logoutBtn.className = "logout-btn-nav";
+      logoutBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i>`;
+      logoutBtn.title = "Logout";
+
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("4beauty_logged_in_user");
+        updateHeaderUserDisplay(); 
+        
+        if (typeof showToast === "function") {
+          showToast("Logged out successfully");
+        }
+      });
+
+      userAccountBox.appendChild(logoutBtn);
+    }
+  } 
+  else {
+    const userNameDisplay = document.getElementById("user-name-display");
+    if (userNameDisplay) userNameDisplay.remove(); 
+    if (userBtn) userBtn.href = "login.html";
+
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) logoutBtn.remove(); 
+  }
 }

@@ -170,6 +170,168 @@ header {
   transform: translateY(0);
   opacity: 1;
 }
+/* ==========================================================================
+   Header & User Section Improvements
+   ========================================================================== */
+
+/* ضبط مسافات محتويات الهيدر على اليمين */
+.nav-section {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem; /* مسافة متناسقة بين الأيقونات */
+}
+
+/* حاوية مستخدم الحساب */
+.user-account-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--light-white-color, #f9f9f9);
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-color, #eee);
+  transition: all 0.3s ease;
+}
+
+.user-account-wrapper:hover {
+  background-color: #f0f0f0;
+}
+
+/* رابط المستخدم والأيقونة */
+.user-icon-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: var(--black-color, #333);
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap; /* منع نزول النص لسطر جديد */
+  width: auto !important; 
+  height: auto !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.user-icon-btn i {
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+}
+
+/* النص الترحيبي باسم المستخدم */
+.user-welcome-text {
+  color: var(--secondary-color);
+  font-weight: 600;
+  max-width: 150px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.logout-btn-nav {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.logout-btn-nav:hover {
+  color: #e63946; /* لون أحمر عند التمرير */
+}
+
+.cart-icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--secondary-color);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Auth Page Layout */
+.auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+}
+
+.auth-card {
+  background-color: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.auth-toggle-btns {
+  display: flex;
+  background-color: var(--light-white-color);
+  padding: 4px;
+  border-radius: 30px;
+  margin-bottom: 2rem;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  background: transparent;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-tab-btn.active {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+.auth-form {
+  display: none;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.auth-form.active {
+  display: flex;
+}
+
+.auth-form h2 {
+  font-size: 1.6rem;
+  color: var(--black-color);
+}
+
+.auth-desc {
+  color: #777;
+  font-size: 0.85rem;
+  margin-top: -0.8rem;
+}
 
 @media screen and (max-width: 800px) {
   .btn {
@@ -243,8 +405,31 @@ font-size: 1.5rem;
     opacity: 1;
     visibility: visible;
   }
+  .nav-section {
+    gap: 0.6rem;
+  }
+
+  .user-account-wrapper {
+    padding: 0.25rem 0.5rem;
+    gap: 0.3rem;
+  }
+
+  .user-welcome-text {
+    display: inline-block !important;
+  }
+  
 }
 
+
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 0 0.8rem;
+  }
+  
+  .nav-logo-img {
+    width: 130px; 
+  }
+}
 .con {
   padding: 3rem;
   display: grid;
@@ -295,7 +480,7 @@ font-size: 1.5rem;
   overflow-x: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  box-shadow: 0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1.5rem 3rem -0.75rem #ff7ec36d;
   border-radius: 0.5rem;
 }
 

@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="container">
-      <header>
+     <header>
         <nav class="navbar">
           <div class="nav-section nav-left">
             <button
@@ -43,13 +43,9 @@
 
             <li><a href="index.html" target="_blank">Home</a></li>
             <li><a href="products.html" target="_blank">Products</a></li>
-            <li><a href="#offers">Offers</a></li>
             <li><a href="contact.html" target="_blank">Contact</a></li>
-            <li><a href="#new">New</a></li>
-          </ul>
-
-          <div class="nav-section nav-right">
-            <button
+             <div class="nav-buttons">
+              <button
               class="nav-button theme-button"
               type="button"
               title="Toggle theme"
@@ -66,15 +62,44 @@
               <i class="fa-solid fa-cart-shopping"></i>
               <span id="cart-count" class="cart-badge">0</span>
             </a>
-            <a href="login.html" title="Sign In" class="nav-button">
-              <i class="fa-solid fa-user"></i>
+            </div>
+          </ul>
+
+          <div class="nav-section nav-right">
+            <div class="nav-btns">
+              <button
+              class="nav-button theme-button"
+              type="button"
+              title="Toggle theme"
+            >
+              <i class="fa-regular fa-moon"></i>
+            </button>
+
+            <a
+              href="cart.html"
+              title="Cart"
+              target="_blank"
+              class="nav-button cart-icon-btn"
+            >
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span id="cart-count" class="cart-badge">0</span>
             </a>
+            </div>
+            <div class="user-account-wrapper" id="user-account-box">
+              <a
+                href="login.html"
+                class="nav-button user-icon-btn"
+                id="user-btn"
+              >
+                <i class="fa-regular fa-user"></i>
+                <span class="user-welcome-text" id="user-name-display"></span>
+              </a>
+            </div>
           </div>
         </nav>
 
         <div class="nav-overlay" id="nav-overlay"></div>
       </header>
-
       <main class="contact-page-section">
         <div class="contact-header">
           <span class="contact-subtitle">Get In Touch</span>

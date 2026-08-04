@@ -1,19 +1,23 @@
 function setupDarkMode() {
-  const themeButton = document.querySelector(".theme-button i");
+  const themeButtons = document.querySelectorAll(".theme-button i");
+  const isDarkStored = localStorage.getItem("darkMode") === "enable";
 
-  if (localStorage.getItem("darkMode") === "enable") {
+  if (isDarkStored) {
     document.body.classList.add("dark-mode");
-    if (themeButton) themeButton.classList.replace("fa-moon", "fa-sun");
+    themeButtons.forEach((btn) => btn.classList.replace("fa-moon", "fa-sun"));
   }
 
-  if (themeButton) {
-    themeButton.addEventListener("click", () => {
+  themeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
       const isDarkMode = document.body.classList.toggle("dark-mode");
       localStorage.setItem("darkMode", isDarkMode ? "enable" : "disable");
-      themeButton.classList.toggle("fa-sun", isDarkMode);
-      themeButton.classList.toggle("fa-moon", !isDarkMode);
+
+       document.querySelectorAll(".theme-button i").forEach((icon) => {
+        icon.classList.toggle("fa-sun", isDarkMode);
+        icon.classList.toggle("fa-moon", !isDarkMode);
+      });
     });
-  }
+  });
 }
 
 function setupNavigation() {
